@@ -27,7 +27,7 @@ This script automates the process of identifying and fixing such files without m
 - I’m not a programmer; this was made with ChatGPT's help.  
 - It fixes a very specific issue that I faced. If you find it helpful, great!  
 - **Feel free to fork it** and tweak it to suit your needs.  
-- Use at your own risk. Test it with a small sample of MKV files first. — I tested it for my setup, but mileage may vary.
+- Use at your own risk. I am not responsible for any issues, such as data loss or unintended changes. Always back up your media beforehand — this is a best practice for any automated batch processing. Test it with a small sample of MKV files first. — I tested it for my setup, but mileage may vary.
 
 ---
 
