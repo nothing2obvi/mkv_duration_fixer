@@ -60,6 +60,7 @@ DRY_RUN = True  # Set to False to enable full-run mode
 INPUT_DIRECTORY = "/path/to/your/files"  # Directory containing MKV files
 LOG_DIRECTORY = "/path/to/your/logs"  # Directory for log files
 PROCESSED_LOG = "processed_files.log"  # File to track processed MKVs
+RENDERED_DIRECTORY = "/path/to/rendered files" # Where the rendered files should go; if you want them to overwrite the originals, just put "None" (without quotes)
 ```
 
 ## 📄 **Usage**
