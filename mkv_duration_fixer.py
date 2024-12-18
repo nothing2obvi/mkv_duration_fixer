@@ -4,12 +4,12 @@ import shutil
 from datetime import datetime
 
 # Configurable paths and dry-run toggle
-DRY_RUN = True # Set to False to apply changes
+DRY_RUN = True  # Set to False to apply changes
 INPUT_FILE_PATH = "/path/to/your/files"
-OUTPUT_FILE_PATH = "/path/to/your/logs" # Directory where logs go
+OUTPUT_FILE_PATH = "/path/to/your/logs"  # Directory where logs go
 LOG_FILE = os.path.join(OUTPUT_FILE_PATH, "duration_fix.log")  # Define the name of the log file
 DISCREPANCY_THRESHOLD = 300  # 5 minutes in seconds
-RENDERED_DIRECTORY = "/path/to/your/rendered/files"  # Define rendered file output directory, or set to None for overwriting
+RENDERED_DIRECTORY = None  # Define rendered file output directory, or set to None for overwriting
 
 # Ensure the logs directory exists
 os.makedirs(OUTPUT_FILE_PATH, exist_ok=True)
