@@ -11,7 +11,10 @@ LOG_FILE = os.path.join(OUTPUT_FILE_PATH, "duration_fix.log")  # Define the name
 DISCREPANCY_THRESHOLD = 300  # 5 minutes in seconds
 RENDERED_DIRECTORY = "/path/to/your/rendered/files"  # Define rendered file output directory, or set to None for overwriting
 
-# Create output directory if it doesn't exist
+# Ensure the logs directory exists
+os.makedirs(OUTPUT_FILE_PATH, exist_ok=True)
+
+# Create rendered directory if it doesn't exist
 os.makedirs(RENDERED_DIRECTORY, exist_ok=True) if RENDERED_DIRECTORY else None
 
 # Define a function to log messages
@@ -64,8 +67,9 @@ def get_durations(file_path):
 
 # Function to process a file
 def process_file(file_path, logged_files):
-	if file_path in logged_files:
-		log(f"Skipping file already logged: {file_path} | STATUS: {logged_files[file_path]}")
+	# Skip files that have already been processed (not dry-run)
+	if file_path in logged_files and logged_files[file_path] == "adjusted":
+		log(f"Skipping file already processed: {file_path} | STATUS: adjusted")
 		return False
 
 	general_duration, video_duration = get_durations(file_path)
@@ -118,18 +122,30 @@ def process_directory(directory):
 	processed_files = []
 	skipped_files = []
 
+	processed_count = 0
+	skipped_count = 0
+
 	for root, _, files in os.walk(directory):
 		for file in files:
 			if file.lower().endswith((".mkv", ".mp4", ".avi", ".mov")):
 				file_path = os.path.join(root, file)
 				if process_file(file_path, logged_files):
 					processed_files.append(file_path)
+					processed_count += 1
 				else:
 					skipped_files.append(file_path)
+					skipped_count += 1
 
-	log(f"Process completed. {len(processed_files)} files adjusted, {len(skipped_files)} files skipped.")
-	log(f"Files processed: {', '.join(processed_files)}")
-	log(f"Files skipped: {', '.join(skipped_files)}")
+	if DRY_RUN:
+		log(f"Process completed. {processed_count} files would be adjusted, {skipped_count} files would be skipped.")
+		log("Dry-run mode summary:")
+		log(f"  Total files that would be processed: {processed_count}")
+		log(f"  Total files that would be skipped: {skipped_count}")
+	else:
+		log(f"Process completed. {processed_count} files adjusted, {skipped_count} files skipped.")
+		log("Full-run mode summary:")
+		log(f"  Total files processed: {processed_count}")
+		log(f"  Total files skipped: {skipped_count}")
 
 # Main function
 def main():
